@@ -36,22 +36,9 @@ struct drive_t
 
     std::list<struct neighbor_t> neighbors;    //  连接的所有邻居
 
-    Json::Value save(bool save_neighbors = true)
-    {
-        Json::Value v;
-        v["node_id"] = node_id;
-        v["mac"] = mac;
+    Json::Value save(bool save_neighbors = true);
 
-        if (save_neighbors == true)
-        {
-            for (auto nei : neighbors)
-            {
-                v["neighbors"].append(nei.save());
-            }
-        }
-
-        return v;
-    }
+    void load(const Json::Value& v);
 };
 
 struct neighbor_t
@@ -68,7 +55,43 @@ struct neighbor_t
 
         return v;
     }
+
+    void load(const Json::Value& v)
+    {
+        link_status = (e_link_status)v["node_id"].asInt();
+        remote.load(v["remote"]);
+    }
 };
+
+Json::Value drive_t::save(bool save_neighbors)
+{
+    Json::Value v;
+    v["node_id"] = node_id;
+    v["mac"] = mac;
+
+    if (save_neighbors == true)
+    {
+        for (auto nei : neighbors)
+        {
+            v["neighbors"].append(nei.save());
+        }
+    }
+
+    return v;
+}
+
+void drive_t::load(const Json::Value& v)
+{
+    node_id = v["node_id"].asString();
+    mac = v["mac"].asString();
+
+    for (auto i : v["neighbors"])
+    {
+        neighbor_t nei;
+        nei.load(i);
+        neighbors.push_back(nei);
+    }
+}
 
 //  节点
 struct node_t
@@ -88,6 +111,18 @@ struct node_t
         }
 
         return v;
+    }
+
+    void load(const Json::Value& v)
+    {
+        id = v["id"].asString();
+
+        for (auto i : v["drives"])
+        {
+            drive_t dev;
+            dev.load(i);
+            drives.push_back(dev);
+        }
     }
 
     bool is_null() const { return id.empty(); }
@@ -225,18 +260,19 @@ public:
         return root;
     }
 
+    void load(const Json::Value& v)
+    {
+
+        for (auto i : v["nodes"])
+        {
+            node_t node;
+            node.load(i);
+            nodes.push_back(node);
+        }
+    }
+
     bool save(const std::string& path)
     {
-        //std::ifstream in(path.c_str(), std::ios::binary);
-        //if (in.is_open() == false)
-        //{
-        //    return false;
-        //}
-
-        //Json::CharReaderBuilder builder;
-        //Json::String errs;
-
-        //return parseFromStream(builder, in, &root, &errs);
         Json::StreamWriterBuilder writerBuilder;
         std::ostringstream ostr;
 
@@ -250,6 +286,28 @@ public:
         jsonWriter->write(save(), &ostr);
         os << ostr.str();
         os.close();
+
+        return true;
+    }
+
+    bool load(const std::string& path)
+    {
+        std::ifstream in(path.c_str(), std::ios::binary);
+        if (in.is_open() == false)
+        {
+            return false;
+        }
+
+        Json::CharReaderBuilder builder;
+        Json::String errs;
+
+        Json::Value root;
+        if (parseFromStream(builder, in, &root, &errs))
+        {
+            return false;
+        }
+
+        load(root);
 
         return true;
     }

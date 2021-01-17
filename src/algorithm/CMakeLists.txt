@@ -45,6 +45,7 @@ link_directories(./lib/ ../lib/)
 
 add_executable(test_algorithm test/test.cpp)
 target_link_libraries(test_algorithm algorithm)
+target_link_libraries(test_algorithm PRIVATE jsoncpp_lib jsoncpp_object)
 
 IF (WIN32)
 ELSE ()
