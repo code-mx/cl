@@ -1,0 +1,75 @@
+{
+    "link_info": [
+        [
+            {
+                //网元A的MAC地址和端口
+                "localMac": 3c: 9f: 81: 16: 00: 05: 00",
+               "localport": "17"
+            },
+            {
+                //伪节点A'的MAC地址和端口
+                "remoteMac": "3c:9f:81:16:00:20:11",
+                "remoteport": "17"
+            },
+            {
+                "linkType": "0",
+                "bandwidth":"1000000,            
+               "channelFactor": "8"
+            }
+        ],
+        [
+            {
+                //网元B的MAC地址和端口
+                "localMac": "3c:9f:81:16:00:20:00",
+                "localport": "17"
+            },
+            {
+                //伪节点A'的MAC地址和端口
+                "remoteMac": "3c:9f:81:16:00:20:11",
+                "remoteport": "17"
+            },
+            {
+                "linkType": "0",
+                "bandwidth": "1000000",
+                "channelFactor": "8"
+            }
+        ],
+        [
+            {
+                //伪节点A'的MAC地址和端口
+                "localMac": "3c:9f:81:16:00:20:11",
+                "localport": "17"
+            },
+            {
+                //网元A的MAC地址和端口
+                "remoteMac": "3c:9f:81:16:00:05:00",
+                "remoteport": "17"
+            },
+            {
+                //网元B的MAC地址和端口
+                "remoteMac": "3c:9f:81:16:00:20:00",
+                "remoteport": "17"
+            }
+        ]
+    ]
+}
+// 字段说明：
+// localMac：本地网元mac地址
+// localport：本地接口索引号
+// remoteMac：远端邻居网元mac地址
+// remoteport：远端邻居接口索引号
+// linkType：链路类型。这里0表示光纤，1表示卫通，2表示散射，3表示5G，4表示电口，8表示区宽，9表示激光，10表示微波。
+// Bandwidth：带宽值
+// channelFactor：信道因子值
+// 拓扑按广播链路形式表达。
+// 表达A与B之间的点到点链路，则拓扑信息为：
+// A--->A'
+// B--->A'
+// A'--->A,B
+// 其中，A'为伪节点;
+// 表达A，B，C之间的共享链路，则拓扑信息为：
+// A--->A'
+// B--->A'
+// C--->A'
+// A'--->A,B,C
+// 其中A'为伪节点;

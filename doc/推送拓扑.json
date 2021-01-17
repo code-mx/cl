@@ -1,0 +1,56 @@
+{
+    "link_info": [
+        [
+            {
+                "localMac": "3c:9f:81:16:00:05:00",
+                "localport": "18"
+            },
+            {
+                "remoteMac": "3c:9f:81:16:00:20:12",
+                "remoteport": "18"
+            },
+            {
+                "linkType": "0",
+                "bandwidth":"1000000,                 
+    "channelFactor": "8"
+            }
+        ],
+        [
+            {
+                "localMac": "3c:9f:81:16:00:20:00",
+                "localport": "18"
+            },
+            {
+                "remoteMac": "3c:9f:81:16:00:20:12",
+                "remoteport": "18"
+            },
+            {
+                "linkType": "0",
+                "bandwidth": "1000000",
+                "channelFactor": "2"
+            }
+        ],
+        [
+            {
+                "localMac": "3c:9f:81:16:00:20:12",
+                "localport": "18"
+            },
+            {
+                "remoteMac": "3c:9f:81:16:00:05:00",
+                "remoteport": "18"
+            },
+            {
+                "remoteMac": "3c:9f:81:16:00:20:00",
+                "remoteport": "18"
+            }
+        ]
+    ]
+}
+
+// localMac：本地网元mac地址
+// localport：本地接口索引号
+// remoteMac：远端邻居网元mac地址
+// remoteport：远端邻居接口索引号
+// linkType：链路类型。这里0表示光纤，1表示卫通，2表示散射，3表示5G，4表示电口，8表示区宽，9表示激光，10表示微波。
+// Bandwidth：带宽值
+// channelFactor：信道因子值
